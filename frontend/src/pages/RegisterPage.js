@@ -11,12 +11,21 @@ import { useToast } from "../hooks/use-toast";
 const RegisterPage = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { register, isAuthenticated, loading } = useAuth();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
     confirmPassword: ""
   });
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (isAuthenticated && !loading) {
+      navigate("/dashboard");
+    }
+  }, [isAuthenticated, loading, navigate]);
 
   const handleInputChange = (e) => {
     setFormData({
@@ -25,7 +34,7 @@ const RegisterPage = () => {
     });
   };
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     
     if (formData.password !== formData.confirmPassword) {
@@ -37,28 +46,38 @@ const RegisterPage = () => {
       return;
     }
     
-    if (formData.name && formData.email && formData.password) {
-      toast({
-        title: "Cadastro realizado com sucesso!",
-        description: "Bem-vindo ao YOU. Vamos começar sua jornada!",
-      });
-      
-      // Store mock user data
-      localStorage.setItem("user", JSON.stringify({
-        name: formData.name,
-        email: formData.email,
-        loggedIn: true
-      }));
-      
-      navigate("/quiz");
-    } else {
+    if (!formData.name || !formData.email || !formData.password) {
       toast({
         title: "Erro no cadastro",
         description: "Por favor, preencha todos os campos.",
         variant: "destructive"
       });
+      return;
     }
+
+    setIsLoading(true);
+    
+    const result = await register({
+      name: formData.name,
+      email: formData.email,
+      password: formData.password
+    });
+    
+    if (result.success) {
+      navigate("/quiz"); // Go to quiz after successful registration
+    }
+    
+    setIsLoading(false);
   };
+
+  // Show loading spinner while checking authentication
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
