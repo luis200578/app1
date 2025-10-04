@@ -15,7 +15,7 @@ import { mockQuizQuestions } from "../data/mock";
 const QuizPage = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { user, isAuthenticated, loading } = useAuth();
+  const { user, isAuthenticated, loading, refreshAuth } = useAuth();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState({});
   const [isCompleted, setIsCompleted] = useState(false);
