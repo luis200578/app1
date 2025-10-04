@@ -105,8 +105,6 @@ class YouAPITester:
         """Test user registration"""
         success, data, status = self.make_request("POST", "/auth/register", self.test_user)
         
-        print(f"DEBUG Registration - Success: {success}, Status: {status}")
-        print(f"DEBUG Registration - Data: {data}")
         
         if success and isinstance(data, dict) and data.get("success"):
             user_data = data.get("data", {}).get("user", {})
