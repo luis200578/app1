@@ -168,7 +168,11 @@ const ChatPage = () => {
       
       setMessages(prev => [...prev, userMessageObj]);
 
-      // Send to backend
+      // Send to backend (with safety check)
+      if (!currentConversation?._id) {
+        throw new Error('Conversa não encontrada');
+      }
+      
       const response = await chatAPI.sendMessage(currentConversation._id, {
         content: userMessage,
         type: 'user'
