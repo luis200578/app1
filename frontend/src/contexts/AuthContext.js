@@ -176,6 +176,28 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const refreshAuth = async () => {
+    const token = getAuthToken();
+    if (token) {
+      try {
+        const response = await authAPI.getCurrentUser();
+        if (response.success) {
+          setUser(response.data.user);
+          localStorage.setItem('user', JSON.stringify(response.data.user));
+          return true;
+        } else {
+          // Token expired, logout
+          await logout();
+          return false;
+        }
+      } catch (error) {
+        console.error('Error refreshing auth:', error);
+        return false;
+      }
+    }
+    return false;
+  };
+
   const updateUser = (userData) => {
     setUser(prev => ({ ...prev, ...userData }));
     localStorage.setItem('user', JSON.stringify({ ...user, ...userData }));
