@@ -10,6 +10,7 @@ import QuizPage from "./pages/QuizPage";
 import ChatPage from "./pages/ChatPage";
 import PricingPage from "./pages/PricingPage";
 import SupportTypesPage from "./pages/SupportTypesPage";
+import TherapyTypesPage from "./pages/TherapyTypesPage";
 import FAQPage from "./pages/FAQPage";
 import ContactPage from "./pages/ContactPage";
 import GoalsPage from "./pages/GoalsPage";
