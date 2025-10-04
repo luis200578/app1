@@ -364,6 +364,139 @@ const LandingPage = () => {
         </div>
       </section>
 
+      {/* Testimonials Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <div className="flex items-center justify-center space-x-2 mb-4">
+              <div className="flex">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <Star key={star} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                ))}
+              </div>
+              <span className="text-lg font-medium">{mockStats.rating}/5</span>
+              <span className="text-gray-500">de avaliações</span>
+            </div>
+          </div>
+          
+          <div className="max-w-4xl mx-auto">
+            <Card className="p-8 bg-gradient-to-br from-blue-50 to-purple-50 border-blue-200">
+              <CardContent className="text-center p-0">
+                <div className="mb-6">
+                  <img 
+                    src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=80&h=80&fit=crop&crop=face" 
+                    alt="Sarah M."
+                    className="w-16 h-16 rounded-full mx-auto mb-4"
+                  />
+                </div>
+                
+                <blockquote className="text-xl text-gray-800 mb-6 leading-relaxed">
+                  "Meu Gêmeo IA me ajudou a entender meus padrões de ansiedade. 
+                  Me sinto mais no controle das minhas emoções do que nunca antes."
+                </blockquote>
+                
+                <div className="text-center">
+                  <p className="font-semibold text-gray-800">Sarah M.</p>
+                  <p className="text-gray-600">Gerente de Marketing</p>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <p className="text-center text-gray-500 mt-4 text-sm">
+              Deslize para navegar
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Multi-language Support */}
+      <section className="py-16 bg-gray-900 text-white">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl font-bold mb-4">
+            Disponível em {mockStats.languages} idiomas
+          </h2>
+          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+            Experimente o YOU em seu idioma nativo. Nosso Gêmeo IA se adapta ao seu 
+            contexto cultural e estilo de comunicação.
+          </p>
+          
+          <div className="mb-8">
+            <img 
+              src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?w=600&h=300&fit=crop"
+              alt="Mapa mundial mostrando disponibilidade global"
+              className="mx-auto rounded-lg shadow-lg max-w-2xl w-full"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Additional Features */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl font-bold text-gray-800 mb-4">
+            Este produto é para você se:
+          </h2>
+          
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-12">
+            <div className="text-left">
+              <h3 className="text-xl font-semibold text-gray-800 mb-4">
+                Você quer:
+              </h3>
+              <ul className="space-y-2 text-gray-600">
+                <li className="flex items-center">
+                  <Check className="w-5 h-5 text-green-500 mr-2" />
+                  Tomar melhores decisões na vida
+                </li>
+                <li className="flex items-center">
+                  <Check className="w-5 h-5 text-green-500 mr-2" />
+                  Buscar autoconhecimento mais profundo
+                </li>
+                <li className="flex items-center">
+                  <Check className="w-5 h-5 text-green-500 mr-2" />
+                  Desbloquear seu potencial máximo
+                </li>
+                <li className="flex items-center">
+                  <Check className="w-5 h-5 text-green-500 mr-2" />
+                  Crescimento transformativo
+                </li>
+              </ul>
+            </div>
+            
+            <div className="text-left">
+              <h3 className="text-xl font-semibold text-gray-800 mb-4">
+                Você crescerá nestas áreas:
+              </h3>
+              <ul className="space-y-2 text-gray-600">
+                <li className="flex items-center">
+                  <Check className="w-5 h-5 text-blue-500 mr-2" />
+                  Tomada de decisão
+                </li>
+                <li className="flex items-center">
+                  <Check className="w-5 h-5 text-blue-500 mr-2" />
+                  Inteligência emocional
+                </li>
+                <li className="flex items-center">
+                  <Check className="w-5 h-5 text-blue-500 mr-2" />
+                  Crescimento pessoal
+                </li>
+                <li className="flex items-center">
+                  <Check className="w-5 h-5 text-blue-500 mr-2" />
+                  Autoconsciência
+                </li>
+                <li className="flex items-center">
+                  <Check className="w-5 h-5 text-blue-500 mr-2" />
+                  Propósito de vida
+                </li>
+                <li className="flex items-center">
+                  <Check className="w-5 h-5 text-blue-500 mr-2" />
+                  Clareza mental
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-16">
         <div className="container mx-auto px-4">
