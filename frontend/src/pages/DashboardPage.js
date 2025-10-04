@@ -84,6 +84,40 @@ const DashboardPage = () => {
     dailyAnalytics: []
   });
 
+  const logTodayMood = async () => {
+    const mood = prompt("Como está seu humor hoje? (1-10):");
+    const energy = prompt("Qual seu nível de energia? (1-10):");
+    const stress = prompt("Qual seu nível de estresse? (1-10):");
+    
+    if (mood && energy && stress) {
+      try {
+        const moodData = {
+          date: new Date().toISOString().split('T')[0],
+          mood: parseInt(mood),
+          energy: parseInt(energy),
+          stress: parseInt(stress)
+        };
+        
+        await analyticsAPI.logMood(moodData);
+        
+        toast({
+          title: "Humor registrado!",
+          description: "Seus dados foram salvos. Recarregando dashboard...",
+        });
+        
+        // Reload dashboard data
+        loadDashboardData();
+        
+      } catch (error) {
+        toast({
+          title: "Erro ao registrar humor",
+          description: "Tente novamente mais tarde.",
+          variant: "destructive"
+        });
+      }
+    }
+  };
+
   const StatCard = ({ icon: Icon, title, value, subtitle, color = "blue" }) => (
     <Card className="hover:shadow-lg transition-shadow">
       <CardContent className="p-6">
