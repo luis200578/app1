@@ -403,9 +403,10 @@ const ChatPage = () => {
                 <Input
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
+                  onKeyPress={handleKeyPress}
                   placeholder="Compartilhe seus pensamentos, sentimentos ou o que está em sua mente..."
                   className="flex-1 bg-gray-50 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
-                  disabled={isTyping}
+                  disabled={isSending || isTyping}
                 />
                 <Button 
                   type="submit"
