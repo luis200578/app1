@@ -86,11 +86,23 @@ class YouAPITester:
 
     def test_health_check(self):
         """Test basic health endpoint"""
-        success, data, status = self.make_request("GET", "/../health")
-        if success and isinstance(data, dict) and data.get("success"):
-            self.log_test("Health Check", True, f"Status: {data.get('message', 'OK')}")
-        else:
-            self.log_test("Health Check", False, f"Status: {status}", data)
+        # Test the correct health endpoint path
+        health_url = self.base_url.replace('/api', '/health')
+        try:
+            response = self.session.get(health_url, timeout=30)
+            if response.status_code == 200:
+                try:
+                    data = response.json()
+                    if isinstance(data, dict) and data.get("success"):
+                        self.log_test("Health Check", True, f"Status: {data.get('message', 'OK')}")
+                    else:
+                        self.log_test("Health Check", False, f"Invalid JSON response", data)
+                except:
+                    self.log_test("Health Check", False, f"Non-JSON response", response.text[:200])
+            else:
+                self.log_test("Health Check", False, f"Status: {response.status_code}", response.text[:200])
+        except Exception as e:
+            self.log_test("Health Check", False, f"Request failed: {str(e)}")
 
     def test_api_root(self):
         """Test API root endpoint"""
