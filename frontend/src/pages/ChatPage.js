@@ -277,7 +277,7 @@ const ChatPage = () => {
               ? 'bg-white border border-gray-200' 
               : 'bg-blue-500 text-white'
           }`}>
-            <p className="text-sm leading-relaxed">{message.message}</p>
+            <p className="text-sm leading-relaxed">{message.content || message.message}</p>
             <p className={`text-xs mt-1 ${
               isAI ? 'text-gray-500' : 'text-blue-100'
             }`}>
