@@ -200,14 +200,18 @@ app.get('/api/docs', (req, res) => {
 });
 
 // 404 handler for API routes
-app.use('/api/*', (req, res) => {
-  res.status(404).json({
-    success: false,
-    message: 'Endpoint não encontrado',
-    path: req.originalUrl,
-    method: req.method,
-    timestamp: new Date().toISOString()
-  });
+app.use('/api', (req, res, next) => {
+  if (req.originalUrl.startsWith('/api/')) {
+    res.status(404).json({
+      success: false,
+      message: 'Endpoint não encontrado',
+      path: req.originalUrl,
+      method: req.method,
+      timestamp: new Date().toISOString()
+    });
+  } else {
+    next();
+  }
 });
 
 // Global error handler
