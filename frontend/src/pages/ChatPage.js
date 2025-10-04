@@ -49,6 +49,168 @@ const ChatPage = () => {
     scrollToBottom();
   }, [messages]);
 
+  const loadConversations = async () => {
+    try {
+      setIsLoading(true);
+      const response = await chatAPI.getConversations();
+      
+      if (response.success) {
+        setConversations(response.data.conversations);
+        
+        // If no conversations exist, create a new one
+        if (response.data.conversations.length === 0) {
+          await createNewConversation();
+        } else {
+          // Load the most recent conversation
+          const mostRecent = response.data.conversations[0];
+          setCurrentConversation(mostRecent);
+          loadMessages(mostRecent._id);
+        }
+      }
+    } catch (error) {
+      console.error('Error loading conversations:', error);
+      toast({
+        title: "Erro ao carregar conversas",
+        description: error.message || "Não foi possível carregar suas conversas",
+        variant: "destructive"
+      });
+      
+      // Create new conversation as fallback
+      await createNewConversation();
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const createNewConversation = async () => {
+    try {
+      const response = await chatAPI.createConversation({
+        title: `Nova Conversa - ${new Date().toLocaleDateString('pt-BR')}`,
+        tags: ['geral']
+      });
+      
+      if (response.success) {
+        const newConv = response.data.conversation;
+        setCurrentConversation(newConv);
+        setConversations(prev => [newConv, ...prev]);
+        setMessages([]);
+        
+        // Send welcome message
+        await sendWelcomeMessage(newConv._id);
+      }
+    } catch (error) {
+      console.error('Error creating conversation:', error);
+      toast({
+        title: "Erro ao iniciar conversa",
+        description: error.message || "Não foi possível iniciar uma nova conversa",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const sendWelcomeMessage = async (conversationId) => {
+    try {
+      const welcomeMessage = `Olá ${user?.name || 'amigo'}! 👋 Sou seu Gêmeo IA pessoal. Estou aqui para conversar, te ajudar a refletir sobre seus sentimentos e apoiar seu crescimento pessoal. Como você está se sentindo hoje?`;
+      
+      const response = await chatAPI.sendMessage(conversationId, {
+        content: welcomeMessage,
+        type: 'ai'
+      });
+      
+      if (response.success) {
+        setMessages([response.data.message]);
+      }
+    } catch (error) {
+      console.error('Error sending welcome message:', error);
+    }
+  };
+
+  const loadMessages = async (conversationId) => {
+    try {
+      const response = await chatAPI.getMessages(conversationId);
+      
+      if (response.success) {
+        setMessages(response.data.messages);
+      }
+    } catch (error) {
+      console.error('Error loading messages:', error);
+      toast({
+        title: "Erro ao carregar mensagens",
+        description: error.message || "Não foi possível carregar as mensagens",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const sendMessage = async () => {
+    if (!newMessage.trim() || !currentConversation || isSending) return;
+
+    const userMessage = newMessage.trim();
+    setNewMessage("");
+    setIsSending(true);
+    setIsTyping(true);
+
+    try {
+      // Add user message to UI immediately
+      const userMessageObj = {
+        _id: Date.now().toString(),
+        content: userMessage,
+        type: 'user',
+        timestamp: new Date(),
+        sender: user._id
+      };
+      
+      setMessages(prev => [...prev, userMessageObj]);
+
+      // Send to backend
+      const response = await chatAPI.sendMessage(currentConversation._id, {
+        content: userMessage,
+        type: 'user'
+      });
+
+      if (response.success) {
+        // Replace temporary message with real one and add AI response
+        setMessages(prev => {
+          const filtered = prev.filter(msg => msg._id !== userMessageObj._id);
+          const newMessages = [response.data.userMessage];
+          
+          if (response.data.aiMessage) {
+            newMessages.push(response.data.aiMessage);
+          }
+          
+          return [...filtered, ...newMessages];
+        });
+        
+        toast({
+          title: "Mensagem enviada!",
+          description: "Seu Gêmeo IA está respondendo...",
+        });
+      }
+      
+    } catch (error) {
+      console.error('Error sending message:', error);
+      
+      // Remove temporary message on error
+      setMessages(prev => prev.filter(msg => msg._id !== userMessageObj._id));
+      
+      toast({
+        title: "Erro ao enviar mensagem",
+        description: error.message || "Não foi possível enviar sua mensagem. Tente novamente.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSending(false);
+      setIsTyping(false);
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  };
+
   const generateAIResponse = (userMessage) => {
     const responses = [
       `Entendo que você está se sentindo assim. Com base no que sei sobre você, isso parece estar conectado com seus padrões de pensamento anteriores. Vamos explorar isso mais profundamente?`,
