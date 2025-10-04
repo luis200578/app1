@@ -213,9 +213,8 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Analytics System"
-  stuck_tasks:
-    - "Analytics System"
+    - "Health Check Routing"
+  stuck_tasks: []
   test_all: false
   test_priority: "high_first"
 
