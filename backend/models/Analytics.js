@@ -221,7 +221,7 @@ analyticsSchema.statics.getWeeklyAverage = function(userId, weekStart) {
   return this.aggregate([
     {
       $match: {
-        userId: mongoose.Types.ObjectId(userId),
+        userId: new mongoose.Types.ObjectId(userId),
         date: { $gte: weekStart, $lte: weekEnd }
       }
     },
