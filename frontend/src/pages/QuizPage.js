@@ -63,15 +63,21 @@ const QuizPage = () => {
       // Store quiz results locally as backup
       localStorage.setItem("quizResults", JSON.stringify(answers));
       
-      // Submit to backend
-      const quizData = {
-        answers: answers,
-        completedAt: new Date().toISOString(),
-        questionsCount: mockQuizQuestions.length
-      };
-      
-      // Submit quiz results to backend
-      await quizAPI.submitQuiz(quizData);
+      // Only submit to backend if user is authenticated
+      if (isAuthenticated && user) {
+        const quizData = {
+          quizType: 'personalidade',
+          answers: answers,
+          completedAt: new Date().toISOString(),
+          completionTime: Date.now() - performance.now() // rough completion time
+        };
+        
+        // Submit quiz results to backend
+        await quizAPI.submitQuiz(quizData);
+        console.log('Quiz submitted to backend successfully');
+      } else {
+        console.log('User not authenticated, skipping backend submission');
+      }
       
       setTimeout(() => {
         toast({
