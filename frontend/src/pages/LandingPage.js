@@ -66,7 +66,7 @@ const LandingPage = () => {
             </div>
             <div className="group relative">
               <button 
-                onClick={() => navigate("/tipos-de-apoio")}
+                onClick={() => navigate("/tipos-de-terapia")}
                 className="text-gray-600 hover:text-gray-800 px-3 py-2"
               >
                 Tipos de Terapia
