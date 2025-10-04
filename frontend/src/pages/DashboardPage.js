@@ -20,20 +20,15 @@ import { mockAnalysis } from "../data/mock";
 
 const DashboardPage = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState(mockUser);
+  const { user, isAuthenticated, loading } = useAuth();
   const [analysis, setAnalysis] = useState(mockAnalysis);
 
   useEffect(() => {
-    // Check if user is logged in
-    const userData = localStorage.getItem("user");
-    if (!userData) {
+    // Check if user is logged in using AuthContext
+    if (!loading && !isAuthenticated) {
       navigate("/login");
-      return;
     }
-    
-    const parsedUser = JSON.parse(userData);
-    setUser(prev => ({ ...prev, ...parsedUser }));
-  }, [navigate]);
+  }, [loading, isAuthenticated, navigate]);
 
   const StatCard = ({ icon: Icon, title, value, subtitle, color = "blue" }) => (
     <Card className="hover:shadow-lg transition-shadow">
