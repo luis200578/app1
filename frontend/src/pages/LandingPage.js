@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "../components/ui/button";
 import { Card, CardContent } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
-import { Star, Brain, Clock, Shield, Zap, Heart, Globe } from "lucide-react";
+import { Star, Brain, Clock, Shield, Zap, Heart, Globe, Check } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { mockStats, mockAnalysis } from "../data/mock";
 
