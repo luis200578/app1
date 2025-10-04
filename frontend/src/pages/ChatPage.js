@@ -157,7 +157,7 @@ const ChatPage = () => {
         content: userMessage,
         type: 'user',
         timestamp: new Date(),
-        sender: user._id
+        sender: user?._id || 'temp'
       };
       
       setMessages(prev => [...prev, userMessageObj]);
