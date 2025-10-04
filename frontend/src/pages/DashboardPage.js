@@ -15,7 +15,8 @@ import {
   Heart
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { mockUser, mockAnalysis } from "../data/mock";
+import { useAuth } from "../contexts/AuthContext";
+import { mockAnalysis } from "../data/mock";
 
 const DashboardPage = () => {
   const navigate = useNavigate();
