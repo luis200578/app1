@@ -14,7 +14,7 @@ from typing import Dict, Any, Optional
 class YouAPITester:
     def __init__(self):
         # Use the production URL from frontend/.env
-        self.base_url = "https://voce-portugues.preview.emergentagent.com/api"
+        self.base_url = "https://copymind-br.preview.emergentagent.com/api"
         self.session = requests.Session()
         self.auth_token = None
         self.user_id = None
