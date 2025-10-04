@@ -364,12 +364,12 @@ const DashboardPage = () => {
                 </Button>
                 
                 <Button 
-                  onClick={() => navigate("/analiticas")}
+                  onClick={logTodayMood}
                   variant="outline"
                   className="w-full justify-start"
                 >
                   <TrendingUp className="w-4 h-4 mr-2" />
-                  Ver Progresso Completo
+                  Registrar Humor Hoje
                 </Button>
                 
                 <Button 
