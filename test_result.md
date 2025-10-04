@@ -218,4 +218,4 @@ test_plan:
 
 agent_communication:
     - agent: "testing"
-      message: "Comprehensive backend API testing completed. 6/7 major systems working correctly. Analytics dashboard has server errors that need investigation. All authentication, user management, chat, goals, and support systems fully functional with AI integration working."
+      message: "Comprehensive backend API testing completed. 6/7 major systems working correctly. Analytics dashboard has MongoDB ObjectId constructor error and AI service 404 errors that need investigation. All authentication, user management, chat, goals, and support systems fully functional with AI integration working. Health endpoint routing issue - returns HTML instead of JSON."
