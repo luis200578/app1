@@ -176,32 +176,32 @@ const DashboardPage = () => {
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <StatCard
-            icon={Clock}
-            title="Sessões Totais"
-            value={user.totalSessions}
-            subtitle="Esta semana: +5"
-            color="blue"
-          />
-          <StatCard
-            icon={Target}
-            title="Sequência Atual"
-            value={`${user.currentStreak} dias`}
-            subtitle="Recorde pessoal!"
-            color="green"
+            icon={Heart}
+            title="Humor Médio"
+            value={analytics ? (analytics.summary.averages.mood > 0 ? `${analytics.summary.averages.mood}/10` : 'N/A') : '--'}
+            subtitle={analytics?.summary.totalDays > 0 ? `Últimos ${analytics.summary.totalDays} dias` : 'Registre seu humor'}
+            color="red"
           />
           <StatCard
             icon={TrendingUp}
-            title="Pontuação de Crescimento"
-            value={`${user.growthScore}%`}
-            subtitle="+12% este mês"
-            color="purple"
+            title="Energia Média"
+            value={analytics ? (analytics.summary.averages.energy > 0 ? `${analytics.summary.averages.energy}/10` : 'N/A') : '--'}
+            subtitle={analytics?.summary.totalDays > 0 ? 'Tendência positiva' : 'Sem dados ainda'}
+            color="green"
+          />
+          <StatCard
+            icon={Target}
+            title="Objetivos Ativos"
+            value={analytics ? analytics.summary.goals.active : '--'}
+            subtitle={analytics ? `${analytics.summary.goals.completedThisPeriod} concluídos` : 'Sem dados'}
+            color="blue"
           />
           <StatCard
             icon={Award}
-            title="Nível"
-            value="Explorador"
-            subtitle="Próximo: Pensador"
-            color="orange"
+            title="Nível de Estresse"
+            value={analytics ? (analytics.summary.averages.stress > 0 ? `${analytics.summary.averages.stress}/10` : 'N/A') : '--'}
+            subtitle={analytics?.summary.averages.stress < 5 ? 'Baixo' : analytics?.summary.averages.stress < 7 ? 'Moderado' : 'Alto'}
+            color="purple"
           />
         </div>
 
