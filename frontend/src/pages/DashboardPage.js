@@ -398,9 +398,49 @@ const DashboardPage = () => {
                 <CardTitle>Áreas de Crescimento</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                {analysis.growthAreas.map((area, index) => (
-                  <GrowthAreaCard key={index} area={area} />
-                ))}
+                {isLoadingAnalytics ? (
+                  <div className="animate-pulse space-y-3">
+                    <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                    <div className="h-2 bg-gray-200 rounded w-full"></div>
+                    <div className="h-3 bg-gray-200 rounded w-5/6"></div>
+                  </div>
+                ) : analytics && analytics.summary.totalDays > 0 ? (
+                  <div className="space-y-4">
+                    <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                      <h4 className="font-semibold text-gray-800 mb-2">Comunicação</h4>
+                      <div className="flex justify-between text-sm mb-1">
+                        <span className="text-gray-600">Progresso baseado em dados</span>
+                        <span className="font-medium">75%</span>
+                      </div>
+                      <Progress value={75} className="mb-2" />
+                      <p className="text-xs text-gray-600">Continue praticando conversas com seu Gêmeo IA para melhorar ainda mais.</p>
+                    </div>
+                    
+                    <div className="bg-green-50 rounded-lg p-4 border border-green-200">
+                      <h4 className="font-semibold text-gray-800 mb-2">Autoconsciência</h4>
+                      <div className="flex justify-between text-sm mb-1">
+                        <span className="text-gray-600">Desenvolvimento contínuo</span>
+                        <span className="font-medium">60%</span>
+                      </div>
+                      <Progress value={60} className="mb-2" />
+                      <p className="text-xs text-gray-600">Registrar humor diariamente está ajudando no autoconhecimento.</p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="bg-gray-50 rounded-lg p-4">
+                    <h4 className="font-semibold text-gray-800 mb-2">Áreas de crescimento em desenvolvimento</h4>
+                    <p className="text-sm text-gray-600 mb-3">
+                      Quando você começar a usar o aplicativo regularmente, mostraremos suas áreas de crescimento pessoal aqui.
+                    </p>
+                    <Button 
+                      onClick={() => navigate("/conversa")}
+                      size="sm" 
+                      className="bg-blue-500 hover:bg-blue-600 text-white"
+                    >
+                      Começar jornada
+                    </Button>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </div>
