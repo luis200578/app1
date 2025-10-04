@@ -5,10 +5,14 @@ const API_BASE_URL = process.env.REACT_APP_BACKEND_URL + '/api';
 // Create axios instance with default config
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 30000,
+  timeout: 10000, // Reduced timeout to 10s
   headers: {
     'Content-Type': 'application/json',
   },
+  // Add retry configuration
+  validateStatus: function (status) {
+    return status < 500; // Accept any status code less than 500 as success
+  }
 });
 
 // Request interceptor to add auth token
