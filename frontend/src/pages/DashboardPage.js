@@ -41,24 +41,28 @@ const DashboardPage = () => {
   const loadDashboardData = async () => {
     try {
       setIsLoadingAnalytics(true);
+      console.log('🔄 Carregando dados do dashboard...');
+      
       const response = await analyticsAPI.getDashboard({ days: 7 });
+      console.log('📊 Resposta da API analytics:', response);
       
       if (response.success) {
+        console.log('✅ Analytics data received:', response.data);
         setAnalytics(response.data);
       } else {
-        // Use fallback data if no analytics exist yet
+        console.log('⚠️ API response not successful, using fallback');
         setAnalytics(createFallbackAnalytics());
       }
     } catch (error) {
-      console.error('Error loading dashboard data:', error);
+      console.error('❌ Error loading dashboard data:', error);
       
       // Use fallback data on error
       setAnalytics(createFallbackAnalytics());
       
       toast({
-        title: "Dados indisponíveis",
-        description: "Usando dados de exemplo. Comece registrando seu humor para ver dados reais.",
-        variant: "default"
+        title: "Erro ao carregar dados",
+        description: "Usando dados padrão. " + error.message,
+        variant: "destructive"
       });
     } finally {
       setIsLoadingAnalytics(false);
