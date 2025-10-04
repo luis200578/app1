@@ -154,7 +154,7 @@ router.post('/mood',
         
         // Add insights to analytics
         for (const insight of dailyInsights.insights) {
-          await analytics.addInsight('daily_reflection', insight, 0.8, 'media', 'humor');
+          await analytics.addInsight('daily_reflection', insight.message || insight, 0.8, 'media', 'humor');
         }
         
         for (const recommendation of dailyInsights.recommendations) {
