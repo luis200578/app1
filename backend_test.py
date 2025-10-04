@@ -488,9 +488,11 @@ class YouAPITester:
     def test_send_contact_message(self):
         """Test send contact message"""
         contact_data = {
+            "name": "Maria Silva",
+            "email": "maria.silva@teste.com",
             "subject": "Sugestão de Melhoria",
             "message": "Gostaria de sugerir a adição de lembretes personalizáveis para os objetivos. Seria muito útil para manter a consistência nos hábitos.",
-            "category": "suggestion",
+            "category": "feedback",
             "priority": "medium"
         }
         
