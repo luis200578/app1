@@ -386,7 +386,7 @@ const ChatPage = () => {
               
               {/* Messages */}
               {messages.map((message) => (
-                <MessageBubble key={message.id} message={message} />
+                <MessageBubble key={message._id || message.id} message={message} />
               ))}
               
               {/* Typing Indicator */}
