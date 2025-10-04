@@ -317,12 +317,13 @@ const QuizPage = () => {
                 
                 <Button
                   onClick={handleNext}
+                  disabled={isSubmitting}
                   className="bg-blue-500 hover:bg-blue-600 text-white flex items-center space-x-2"
                 >
                   <span>
-                    {currentQuestion === mockQuizQuestions.length - 1 ? "Finalizar" : "Próximo"}
+                    {isSubmitting ? "Enviando..." : (currentQuestion === mockQuizQuestions.length - 1 ? "Finalizar" : "Próximo")}
                   </span>
-                  {currentQuestion !== mockQuizQuestions.length - 1 && (
+                  {currentQuestion !== mockQuizQuestions.length - 1 && !isSubmitting && (
                     <ArrowRight className="w-4 h-4" />
                   )}
                 </Button>
