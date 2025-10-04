@@ -262,11 +262,30 @@ const DashboardPage = () => {
                 </Button>
                 
                 <Button 
+                  onClick={() => navigate("/analiticas")}
                   variant="outline"
                   className="w-full justify-start"
                 >
                   <TrendingUp className="w-4 h-4 mr-2" />
                   Ver Progresso Completo
+                </Button>
+                
+                <Button 
+                  onClick={() => navigate("/objetivos")}
+                  variant="outline"
+                  className="w-full justify-start"
+                >
+                  <Target className="w-4 h-4 mr-2" />
+                  Meus Objetivos
+                </Button>
+                
+                <Button 
+                  onClick={() => navigate("/configuracoes")}
+                  variant="outline"
+                  className="w-full justify-start"
+                >
+                  <Brain className="w-4 h-4 mr-2" />
+                  Configurações
                 </Button>
               </CardContent>
             </Card>
