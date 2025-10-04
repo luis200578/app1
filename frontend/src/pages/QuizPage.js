@@ -136,7 +136,7 @@ const QuizPage = () => {
       case "text":
         return (
           <div className="space-y-4">
-            <h2 className="text-xl font-semibold text-gray-800 mb-6">
+            <h2 className="text-xl font-semibent text-gray-800 mb-6">
               {question.question}
             </h2>
             
@@ -146,6 +146,33 @@ const QuizPage = () => {
               onChange={(e) => handleAnswer(question.id, e.target.value)}
               className="min-h-32 bg-gray-50 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
             />
+          </div>
+        );
+        
+      case "single":
+        return (
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold text-gray-800 mb-6">
+              {question.question}
+            </h2>
+            
+            <div className="space-y-3">
+              {question.options.map((option) => (
+                <label 
+                  key={option.value}
+                  className="flex items-center space-x-3 p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 cursor-pointer transition-colors"
+                >
+                  <input
+                    type="radio"
+                    name={`question-${question.id}`}
+                    value={option.value}
+                    onChange={(e) => handleAnswer(question.id, e.target.value)}
+                    className="text-blue-500"
+                  />
+                  <span className="flex-1">{option.label}</span>
+                </label>
+              ))}
+            </div>
           </div>
         );
         
