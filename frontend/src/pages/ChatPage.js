@@ -143,7 +143,13 @@ const ChatPage = () => {
   };
 
   const sendMessage = async () => {
-    if (!newMessage.trim() || !currentConversation || isSending) return;
+    if (!newMessage.trim() || isSending) return;
+    
+    // If no conversation exists, create one first
+    if (!currentConversation) {
+      await createNewConversation();
+      return;
+    }
 
     const userMessage = newMessage.trim();
     setNewMessage("");
