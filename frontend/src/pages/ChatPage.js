@@ -333,12 +333,10 @@ const ChatPage = () => {
 
   if (loading || isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center">
-        <div className="text-center space-y-4">
-          <Loader2 className="w-8 h-8 animate-spin mx-auto text-blue-500" />
-          <p className="text-gray-600">Carregando seu Gêmeo IA...</p>
-        </div>
-      </div>
+      <LoadingScreen 
+        message="Carregando seu Gêmeo IA..."
+        showBrain={true}
+      />
     );
   }
 
