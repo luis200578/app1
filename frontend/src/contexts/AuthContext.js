@@ -21,21 +21,49 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const initAuth = async () => {
       const token = getAuthToken();
+      const savedUser = localStorage.getItem('user');
       
-      if (token) {
+      if (token && savedUser) {
+        try {
+          // First, load user from localStorage for immediate auth
+          const parsedUser = JSON.parse(savedUser);
+          setUser(parsedUser);
+          
+          // Then verify token with backend (optional, non-blocking)
+          try {
+            const response = await authAPI.getCurrentUser();
+            if (response.success) {
+              // Update user data if backend has newer info
+              if (JSON.stringify(response.data.user) !== savedUser) {
+                setUser(response.data.user);
+                localStorage.setItem('user', JSON.stringify(response.data.user));
+              }
+            } else {
+              // Token is invalid, but don't clear immediately to avoid flash
+              console.warn('Token validation failed, user may need to re-login soon');
+            }
+          } catch (error) {
+            // Network error - keep using cached user data
+            console.log('Cannot validate token (network issue), using cached user data');
+          }
+        } catch (parseError) {
+          console.error('Error parsing saved user data:', parseError);
+          localStorage.removeItem('authToken');
+          localStorage.removeItem('user');
+        }
+      } else if (token) {
+        // Token exists but no saved user - try to get user from backend
         try {
           const response = await authAPI.getCurrentUser();
           if (response.success) {
             setUser(response.data.user);
+            localStorage.setItem('user', JSON.stringify(response.data.user));
           } else {
-            // Invalid token, clear storage
             localStorage.removeItem('authToken');
-            localStorage.removeItem('user');
           }
         } catch (error) {
           console.error('Auth initialization error:', error);
           localStorage.removeItem('authToken');
-          localStorage.removeItem('user');
         }
       }
       
