@@ -9,11 +9,19 @@ import { useAuth } from "../contexts/AuthContext";
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
+  const { login, isAuthenticated, loading } = useAuth();
   const [formData, setFormData] = useState({
     email: "",
     password: ""
   });
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (isAuthenticated && !loading) {
+      navigate("/dashboard");
+    }
+  }, [isAuthenticated, loading, navigate]);
 
   const handleInputChange = (e) => {
     setFormData({
@@ -22,32 +30,32 @@ const LoginPage = () => {
     });
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     
-    // Mock login - in real app this would call an API
-    if (formData.email && formData.password) {
-      toast({
-        title: "Login realizado com sucesso!",
-        description: "Bem-vindo de volta ao YOU.",
-      });
-      
-      // Store mock user data
-      localStorage.setItem("user", JSON.stringify({
-        name: "Maria Silva",
-        email: formData.email,
-        loggedIn: true
-      }));
-      
-      navigate("/dashboard");
-    } else {
-      toast({
-        title: "Erro no login",
-        description: "Por favor, preencha todos os campos.",
-        variant: "destructive"
-      });
+    if (!formData.email || !formData.password) {
+      return;
     }
+
+    setIsLoading(true);
+    
+    const result = await login(formData.email, formData.password);
+    
+    if (result.success) {
+      navigate("/dashboard");
+    }
+    
+    setIsLoading(false);
   };
+
+  // Show loading spinner while checking authentication
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
