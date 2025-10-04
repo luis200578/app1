@@ -130,7 +130,7 @@ class YouAPITester:
         print(f"DEBUG Login - Data: {data}")
         
         if success and isinstance(data, dict) and data.get("success"):
-            self.auth_token = data.get("token")
+            self.auth_token = data.get("data", {}).get("token")
             self.log_test("User Login", True, f"Token received: {bool(self.auth_token)}")
             return True
         else:
