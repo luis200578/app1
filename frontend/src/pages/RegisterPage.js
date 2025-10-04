@@ -7,6 +7,9 @@ import { Brain, Menu, Loader2 } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { useToast } from "../hooks/use-toast";
+import { LoadingOverlay } from "../components/ui/loading";
+import { InlineError } from "../components/ui/error-boundary";
+import { useAsyncOperation } from "../hooks/useAsyncOperation";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
