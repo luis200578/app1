@@ -16,7 +16,8 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import { mockAnalysis } from "../data/mock";
+import { analyticsAPI } from "../services/api";
+import { useToast } from "../hooks/use-toast";
 
 const DashboardPage = () => {
   const navigate = useNavigate();
