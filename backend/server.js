@@ -53,9 +53,7 @@ app.use(helmet({
   }
 }));
 app.use(compression());
-app.use(mongoSanitize({
-  replaceWith: '_'
-}));
+// app.use(mongoSanitize()); // Temporarily disabled due to compatibility issue
 
 // CORS configuration
 const corsOptions = {
