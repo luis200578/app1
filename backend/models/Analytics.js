@@ -260,7 +260,7 @@ analyticsSchema.statics.getInsightsSummary = function(userId, days = 7) {
   return this.aggregate([
     {
       $match: {
-        userId: mongoose.Types.ObjectId(userId),
+        userId: new mongoose.Types.ObjectId(userId),
         date: { $gte: startDate }
       }
     },
