@@ -109,7 +109,8 @@ class YouAPITester:
         print(f"DEBUG Registration - Data: {data}")
         
         if success and isinstance(data, dict) and data.get("success"):
-            self.user_id = data.get("user", {}).get("id")
+            user_data = data.get("data", {}).get("user", {})
+            self.user_id = user_data.get("id")
             self.log_test("User Registration", True, f"User ID: {self.user_id}")
             return True
         else:
