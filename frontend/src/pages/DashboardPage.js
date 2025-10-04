@@ -230,29 +230,29 @@ const DashboardPage = () => {
           <StatCard
             icon={Heart}
             title="Humor Médio"
-            value={analytics ? (analytics.summary.averages.mood > 0 ? `${analytics.summary.averages.mood}/10` : 'N/A') : '--'}
-            subtitle={analytics?.summary.totalDays > 0 ? `Últimos ${analytics.summary.totalDays} dias` : 'Registre seu humor'}
+            value={analytics ? (analytics.summary.totalDays > 0 ? `${analytics.summary.averages.mood.toFixed(1)}/10` : 'Sem dados') : '--'}
+            subtitle={analytics?.summary.totalDays > 0 ? `Últimos ${analytics.summary.totalDays} dias` : 'Registre seu primeiro humor'}
             color="red"
           />
           <StatCard
             icon={TrendingUp}
             title="Energia Média"
-            value={analytics ? (analytics.summary.averages.energy > 0 ? `${analytics.summary.averages.energy}/10` : 'N/A') : '--'}
-            subtitle={analytics?.summary.totalDays > 0 ? 'Tendência positiva' : 'Sem dados ainda'}
+            value={analytics ? (analytics.summary.totalDays > 0 ? `${analytics.summary.averages.energy.toFixed(1)}/10` : 'Sem dados') : '--'}
+            subtitle={analytics?.summary.totalDays > 0 ? 'Últimos 7 dias' : 'Registre sua energia'}
             color="green"
           />
           <StatCard
             icon={Target}
             title="Objetivos Ativos"
             value={analytics ? analytics.summary.goals.active : '--'}
-            subtitle={analytics ? `${analytics.summary.goals.completedThisPeriod} concluídos` : 'Sem dados'}
+            subtitle={analytics ? `${analytics.summary.goals.completedThisPeriod} concluídos esta semana` : 'Sem objetivos'}
             color="blue"
           />
           <StatCard
             icon={Award}
             title="Nível de Estresse"
-            value={analytics ? (analytics.summary.averages.stress > 0 ? `${analytics.summary.averages.stress}/10` : 'N/A') : '--'}
-            subtitle={analytics?.summary.averages.stress < 5 ? 'Baixo' : analytics?.summary.averages.stress < 7 ? 'Moderado' : 'Alto'}
+            value={analytics ? (analytics.summary.totalDays > 0 ? `${analytics.summary.averages.stress.toFixed(1)}/10` : 'Sem dados') : '--'}
+            subtitle={analytics?.summary.totalDays > 0 ? (analytics.summary.averages.stress < 5 ? 'Baixo' : analytics.summary.averages.stress < 7 ? 'Moderado' : 'Alto') : 'Registre seu estresse'}
             color="purple"
           />
         </div>
