@@ -8,6 +8,8 @@ import { Progress } from "../components/ui/progress";
 import { Brain, ArrowLeft, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "../hooks/use-toast";
+import { useAuth } from "../contexts/AuthContext";
+import { quizAPI } from "../services/api";
 import { mockQuizQuestions } from "../data/mock";
 
 const QuizPage = () => {
