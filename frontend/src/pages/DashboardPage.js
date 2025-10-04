@@ -177,7 +177,7 @@ const DashboardPage = () => {
               
               <div className="hidden md:block">
                 <h1 className="text-xl font-semibold text-gray-800">
-                  Bem-vindo de volta, {user.name}!
+                  Bem-vindo de volta, {user?.name || 'Usuário'}!
                 </h1>
               </div>
             </div>
