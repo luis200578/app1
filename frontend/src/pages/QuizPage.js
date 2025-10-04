@@ -115,7 +115,17 @@ const QuizPage = () => {
         });
         
         setTimeout(() => {
-          navigate("/dashboard");
+          if (isAuthenticated && user) {
+            navigate("/dashboard");
+          } else {
+            // User completed quiz but is not logged in - redirect to register
+            navigate("/registro", { 
+              state: { 
+                message: "Crie sua conta para ver seus resultados personalizados!",
+                quizCompleted: true 
+              } 
+            });
+          }
         }, 2000);
       }, 1000);
     } finally {
