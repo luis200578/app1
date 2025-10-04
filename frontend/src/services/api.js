@@ -9,10 +9,7 @@ const apiClient = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  // Add retry configuration
-  validateStatus: function (status) {
-    return status < 500; // Accept any status code less than 500 as success
-  }
+  // Don't override default validateStatus - let axios handle status codes normally
 });
 
 // Request interceptor to add auth token
