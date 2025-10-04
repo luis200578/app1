@@ -175,7 +175,7 @@ backend:
     status_history:
         - working: false
           agent: "testing"
-          comment: "Dashboard and behavior patterns endpoints returning 500 errors. Mood logging works correctly. Dashboard aggregation logic needs debugging."
+          comment: "Dashboard endpoint has MongoDB ObjectId constructor error in Analytics model. Mood logging and behavior patterns work correctly. AI service integration returning 404 errors. Database aggregation logic needs fixing."
 
   - task: "Support System"
     implemented: true
