@@ -22,23 +22,25 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/registro" element={<RegisterPage />} />
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/quiz" element={<QuizPage />} />
-          <Route path="/conversa" element={<ChatPage />} />
-          <Route path="/precos" element={<PricingPage />} />
-          <Route path="/tipos-de-apoio" element={<SupportTypesPage />} />
-          <Route path="/tipos-de-terapia" element={<TherapyTypesPage />} />
-          <Route path="/faq" element={<FAQPage />} />
-          <Route path="/contato" element={<ContactPage />} />
-          <Route path="/objetivos" element={<GoalsPage />} />
-          <Route path="/analiticas" element={<AnalyticsPage />} />
-          <Route path="/configuracoes" element={<SettingsPage />} />
-        </Routes>
-        <Toaster />
+        <AuthProvider>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/registro" element={<RegisterPage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/quiz" element={<QuizPage />} />
+            <Route path="/conversa" element={<ChatPage />} />
+            <Route path="/precos" element={<PricingPage />} />
+            <Route path="/tipos-de-apoio" element={<SupportTypesPage />} />
+            <Route path="/tipos-de-terapia" element={<TherapyTypesPage />} />
+            <Route path="/faq" element={<FAQPage />} />
+            <Route path="/contato" element={<ContactPage />} />
+            <Route path="/objetivos" element={<GoalsPage />} />
+            <Route path="/analiticas" element={<AnalyticsPage />} />
+            <Route path="/configuracoes" element={<SettingsPage />} />
+          </Routes>
+          <Toaster />
+        </AuthProvider>
       </BrowserRouter>
     </div>
   );
