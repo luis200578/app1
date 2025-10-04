@@ -20,9 +20,14 @@ import { chatAPI } from "../services/api";
 const ChatPage = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [messages, setMessages] = useState(mockChatMessages);
+  const { user, isAuthenticated, loading } = useAuth();
+  const [conversations, setConversations] = useState([]);
+  const [currentConversation, setCurrentConversation] = useState(null);
+  const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  const [isSending, setIsSending] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -30,15 +35,19 @@ const ChatPage = () => {
   };
 
   useEffect(() => {
-    // Check if user is logged in
-    const userData = localStorage.getItem("user");
-    if (!userData) {
+    if (!loading && !isAuthenticated) {
       navigate("/login");
       return;
     }
     
+    if (isAuthenticated) {
+      loadConversations();
+    }
+  }, [loading, isAuthenticated, navigate]);
+
+  useEffect(() => {
     scrollToBottom();
-  }, [navigate, messages]);
+  }, [messages]);
 
   const generateAIResponse = (userMessage) => {
     const responses = [
