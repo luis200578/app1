@@ -411,7 +411,7 @@ const ChatPage = () => {
                 <Button 
                   type="submit"
                   className="bg-blue-500 hover:bg-blue-600 text-white"
-                  disabled={!newMessage.trim() || isTyping}
+                  disabled={!newMessage.trim() || isSending || isTyping}
                 >
                   <Send className="w-4 h-4" />
                 </Button>
