@@ -128,8 +128,16 @@ const LoginPage = () => {
                 <Button 
                   type="submit"
                   className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3"
+                  disabled={isLoading}
                 >
-                  Entrar
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Entrando...
+                    </>
+                  ) : (
+                    'Entrar'
+                  )}
                 </Button>
               </form>
               
