@@ -15,9 +15,11 @@ import { mockQuizQuestions } from "../data/mock";
 const QuizPage = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { user, isAuthenticated, loading } = useAuth();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState({});
   const [isCompleted, setIsCompleted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const progress = ((currentQuestion + 1) / mockQuizQuestions.length) * 100;
 
