@@ -125,9 +125,24 @@ const QuizPage = () => {
           description: "Redirecionando para seu painel...",
         });
         
-        setTimeout(() => {
-          if (isAuthenticated && user) {
-            navigate("/dashboard");
+        setTimeout(async () => {
+          // Check if user is still authenticated
+          const authValid = isAuthenticated && user;
+          
+          if (authValid) {
+            // Double-check auth before redirecting to dashboard
+            const refreshed = await refreshAuth();
+            if (refreshed) {
+              navigate("/dashboard");
+            } else {
+              // Auth expired during quiz, redirect to register with special message
+              navigate("/registro", { 
+                state: { 
+                  message: "Sua sessão expirou. Crie uma conta para salvar seus resultados!",
+                  quizCompleted: true 
+                } 
+              });
+            }
           } else {
             // User completed quiz but is not logged in - redirect to register
             navigate("/registro", { 
