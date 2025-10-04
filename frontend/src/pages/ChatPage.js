@@ -110,49 +110,6 @@ const ChatPage = () => {
     setMessages([welcomeMessage]);
   };
 
-  const createNewConversation = async () => {
-    try {
-      const response = await chatAPI.createConversation({
-        title: `Nova Conversa - ${new Date().toLocaleDateString('pt-BR')}`,
-        tags: ['geral']
-      });
-      
-      if (response.success) {
-        const newConv = response.data.conversation;
-        setCurrentConversation(newConv);
-        setConversations(prev => [newConv, ...prev]);
-        setMessages([]);
-        
-        // Send welcome message
-        await sendWelcomeMessage(newConv._id);
-      }
-    } catch (error) {
-      console.error('Error creating conversation:', error);
-      toast({
-        title: "Erro ao iniciar conversa",
-        description: error.message || "Não foi possível iniciar uma nova conversa",
-        variant: "destructive"
-      });
-    }
-  };
-
-  const sendWelcomeMessage = async (conversationId) => {
-    try {
-      const welcomeMessage = `Olá ${user?.name || 'amigo'}! 👋 Sou seu Gêmeo IA pessoal. Estou aqui para conversar, te ajudar a refletir sobre seus sentimentos e apoiar seu crescimento pessoal. Como você está se sentindo hoje?`;
-      
-      const response = await chatAPI.sendMessage(conversationId, {
-        content: welcomeMessage,
-        type: 'ai'
-      });
-      
-      if (response.success) {
-        setMessages([response.data.message]);
-      }
-    } catch (error) {
-      console.error('Error sending welcome message:', error);
-    }
-  };
-
   const loadMessages = async (conversationId) => {
     try {
       const response = await chatAPI.getMessages(conversationId);
@@ -161,12 +118,8 @@ const ChatPage = () => {
         setMessages(response.data.messages);
       }
     } catch (error) {
-      console.error('Error loading messages:', error);
-      toast({
-        title: "Erro ao carregar mensagens",
-        description: error.message || "Não foi possível carregar as mensagens",
-        variant: "destructive"
-      });
+      console.log('Could not load messages from backend, using local mode');
+      setMessages([]);
     }
   };
 
