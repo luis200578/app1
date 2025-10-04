@@ -32,7 +32,11 @@ apiClient.interceptors.request.use(
 // Response interceptor to handle common errors
 apiClient.interceptors.response.use(
   (response) => {
-    return response.data; // Return only the data part
+    // Always return the response data, but ensure it has expected structure
+    if (response.data) {
+      return response.data;
+    }
+    return { success: false, message: 'Resposta inválida do servidor' };
   },
   (error) => {
     console.log('API Error Details:', {
