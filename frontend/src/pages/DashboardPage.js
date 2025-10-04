@@ -217,34 +217,75 @@ const DashboardPage = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <h4 className="font-semibold text-gray-800">
-                      Estado primário: {analysis.emotionalState.primary}
-                    </h4>
-                    <Badge variant="secondary" className="bg-blue-100 text-blue-800">
-                      {analysis.emotionalState.level}%
-                    </Badge>
+                {isLoadingAnalytics ? (
+                  <div className="bg-gray-50 rounded-lg p-4">
+                    <div className="animate-pulse">
+                      <div className="h-4 bg-gray-200 rounded w-3/4 mb-3"></div>
+                      <div className="h-2 bg-gray-200 rounded mb-2"></div>
+                      <div className="h-2 bg-gray-200 rounded w-5/6 mb-2"></div>
+                      <div className="h-2 bg-gray-200 rounded w-4/6"></div>
+                    </div>
                   </div>
-                  
-                  <div className="space-y-3">
-                    {analysis.emotionalState.factors.map((factor, index) => (
-                      <div key={index}>
+                ) : analytics && analytics.summary.totalDays > 0 ? (
+                  <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-4">
+                    <div className="flex items-center justify-between mb-3">
+                      <h4 className="font-semibold text-gray-800">
+                        Estado baseado em {analytics.summary.totalDays} dias de dados
+                      </h4>
+                      <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+                        Ativo
+                      </Badge>
+                    </div>
+                    
+                    <div className="space-y-3">
+                      <div>
                         <div className="flex justify-between text-sm mb-1">
-                          <span className="text-gray-600">{factor.name}</span>
-                          <span className="font-medium">{factor.percentage}%</span>
+                          <span className="text-gray-600">Humor</span>
+                          <span className="font-medium">{analytics.summary.averages.mood}/10</span>
                         </div>
-                        <Progress value={factor.percentage} className="h-2" />
+                        <Progress value={analytics.summary.averages.mood * 10} className="h-2" />
                       </div>
-                    ))}
+                      
+                      <div>
+                        <div className="flex justify-between text-sm mb-1">
+                          <span className="text-gray-600">Energia</span>
+                          <span className="font-medium">{analytics.summary.averages.energy}/10</span>
+                        </div>
+                        <Progress value={analytics.summary.averages.energy * 10} className="h-2" />
+                      </div>
+                      
+                      <div>
+                        <div className="flex justify-between text-sm mb-1">
+                          <span className="text-gray-600">Estresse (menor é melhor)</span>
+                          <span className="font-medium">{analytics.summary.averages.stress}/10</span>
+                        </div>
+                        <Progress value={analytics.summary.averages.stress * 10} className="h-2" />
+                      </div>
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <div className="bg-yellow-50 rounded-lg p-4 border border-yellow-200">
+                    <h4 className="font-semibold text-gray-800 mb-2">
+                      Comece seu acompanhamento emocional
+                    </h4>
+                    <p className="text-sm text-gray-600 mb-3">
+                      Registre seus sentimentos diários para começar a ver insights personalizados sobre seu bem-estar.
+                    </p>
+                    <Button 
+                      onClick={() => navigate("/conversa")}
+                      size="sm"
+                      className="bg-yellow-500 hover:bg-yellow-600 text-white"
+                    >
+                      Começar com o Gêmeo IA
+                    </Button>
+                  </div>
+                )}
                 
                 <Button 
                   onClick={() => navigate("/conversa")}
                   className="w-full bg-blue-500 hover:bg-blue-600 text-white"
                 >
-                  Explorar com seu Gêmeo IA
+                  Conversar com seu Gêmeo IA
                   <ChevronRight className="w-4 h-4 ml-2" />
                 </Button>
               </CardContent>
