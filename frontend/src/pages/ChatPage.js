@@ -52,34 +52,62 @@ const ChatPage = () => {
   const loadConversations = async () => {
     try {
       setIsLoading(true);
-      const response = await chatAPI.getConversations();
       
-      if (response.success) {
-        setConversations(response.data.conversations);
+      // Try to load from backend first
+      try {
+        const response = await chatAPI.getConversations();
         
-        // If no conversations exist, create a new one
-        if (response.data.conversations.length === 0) {
-          await createNewConversation();
-        } else {
+        if (response.success && response.data?.conversations) {
+          setConversations(response.data.conversations);
+          
           // Load the most recent conversation
-          const mostRecent = response.data.conversations[0];
-          setCurrentConversation(mostRecent);
-          loadMessages(mostRecent._id);
+          if (response.data.conversations.length > 0) {
+            const mostRecent = response.data.conversations[0];
+            setCurrentConversation(mostRecent);
+            await loadMessages(mostRecent._id);
+          } else {
+            // No conversations exist, create one
+            await createLocalConversation();
+          }
+          return;
         }
+      } catch (backendError) {
+        console.log('Backend não disponível, usando modo local:', backendError);
       }
+      
+      // Fallback to local conversation
+      await createLocalConversation();
+      
     } catch (error) {
       console.error('Error loading conversations:', error);
-      toast({
-        title: "Erro ao carregar conversas",
-        description: error.message || "Não foi possível carregar suas conversas",
-        variant: "destructive"
-      });
-      
-      // Create new conversation as fallback
-      await createNewConversation();
+      await createLocalConversation();
     } finally {
       setIsLoading(false);
     }
+  };
+  
+  const createLocalConversation = async () => {
+    // Create a local conversation object
+    const localConv = {
+      _id: 'local-' + Date.now(),
+      title: `Conversa - ${new Date().toLocaleDateString('pt-BR')}`,
+      createdAt: new Date(),
+      userId: user?._id || 'local-user'
+    };
+    
+    setCurrentConversation(localConv);
+    setConversations([localConv]);
+    
+    // Add welcome message
+    const welcomeMessage = {
+      _id: 'welcome-' + Date.now(),
+      content: `Olá ${user?.name || 'amigo'}! 👋 Sou seu Gêmeo IA pessoal. Estou aqui para conversar, te ajudar a refletir sobre seus sentimentos e apoiar seu crescimento pessoal. Como você está se sentindo hoje?`,
+      type: 'ai',
+      timestamp: new Date(),
+      conversationId: localConv._id
+    };
+    
+    setMessages([welcomeMessage]);
   };
 
   const createNewConversation = async () => {
