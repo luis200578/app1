@@ -300,29 +300,40 @@ const DashboardPage = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="space-y-3">
-                  <div className="border-l-4 border-blue-500 pl-4 py-2">
-                    <h5 className="font-medium text-gray-800">Padrão de Ansiedade Identificado</h5>
-                    <p className="text-sm text-gray-600">
-                      Seu Gêmeo IA notou que você tende a sentir mais ansiedade nas segundas-feiras. 
-                      Considere técnicas de preparação no domingo.
-                    </p>
+                {isLoadingAnalytics ? (
+                  <div className="space-y-3">
+                    <div className="animate-pulse">
+                      <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+                      <div className="h-3 bg-gray-200 rounded w-full"></div>
+                    </div>
                   </div>
-                  
-                  <div className="border-l-4 border-green-500 pl-4 py-2">
-                    <h5 className="font-medium text-gray-800">Progresso na Comunicação</h5>
-                    <p className="text-sm text-gray-600">
-                      Suas habilidades de comunicação assertiva melhoraram 23% nas últimas duas semanas.
-                    </p>
+                ) : analytics && analytics.insightsSummary && analytics.insightsSummary.length > 0 ? (
+                  <div className="space-y-3">
+                    {analytics.insightsSummary.map((insight, index) => (
+                      <div key={index} className="border-l-4 border-blue-500 pl-4 py-2">
+                        <h5 className="font-medium text-gray-800">{insight.title}</h5>
+                        <p className="text-sm text-gray-600">{insight.description}</p>
+                      </div>
+                    ))}
                   </div>
-                  
-                  <div className="border-l-4 border-purple-500 pl-4 py-2">
-                    <h5 className="font-medium text-gray-800">Momento de Gratidão</h5>
-                    <p className="text-sm text-gray-600">
-                      Você mencionou gratidão 8 vezes esta semana - isso é excelente para seu bem-estar emocional.
-                    </p>
+                ) : (
+                  <div className="space-y-3">
+                    <div className="border-l-4 border-gray-300 pl-4 py-2">
+                      <h5 className="font-medium text-gray-800">Insights em desenvolvimento</h5>
+                      <p className="text-sm text-gray-600">
+                        Continue conversando com seu Gêmeo IA para gerar insights personalizados sobre seu crescimento emocional.
+                      </p>
+                    </div>
+                    
+                    <div className="border-l-4 border-blue-500 pl-4 py-2">
+                      <h5 className="font-medium text-gray-800">Dica do dia</h5>
+                      <p className="text-sm text-gray-600">
+                        Reserve 5 minutos hoje para refletir sobre algo pelo qual você é grato. 
+                        Isso pode melhorar significativamente seu humor!
+                      </p>
+                    </div>
                   </div>
-                </div>
+                )}
               </CardContent>
             </Card>
           </div>
