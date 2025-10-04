@@ -27,15 +27,26 @@ const DashboardPage = () => {
   const [isLoadingAnalytics, setIsLoadingAnalytics] = useState(true);
 
   useEffect(() => {
-    // Check if user is logged in using AuthContext
-    if (!loading && !isAuthenticated) {
-      navigate("/login");
-    }
+    const initializeDashboard = async () => {
+      // Wait for auth loading to complete
+      if (loading) return;
+      
+      if (!isAuthenticated) {
+        // Try to refresh auth one time before redirecting
+        const refreshed = await refreshAuth();
+        if (!refreshed) {
+          navigate("/login");
+          return;
+        }
+      }
+      
+      // Load analytics data when user is authenticated
+      if (isAuthenticated && user) {
+        loadDashboardData();
+      }
+    };
     
-    // Load analytics data when user is authenticated
-    if (isAuthenticated && user) {
-      loadDashboardData();
-    }
+    initializeDashboard();
   }, [loading, isAuthenticated, navigate, user]);
 
   const loadDashboardData = async () => {
