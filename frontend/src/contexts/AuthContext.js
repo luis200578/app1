@@ -220,6 +220,7 @@ export const AuthProvider = ({ children }) => {
     login,
     register,
     logout,
+    refreshAuth,
     updateUser,
     refreshUser,
     loading,
