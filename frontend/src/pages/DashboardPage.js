@@ -21,7 +21,7 @@ import { useToast } from "../hooks/use-toast";
 
 const DashboardPage = () => {
   const navigate = useNavigate();
-  const { user, isAuthenticated, loading } = useAuth();
+  const { user, isAuthenticated, loading, refreshAuth } = useAuth();
   const { toast } = useToast();
   const [analytics, setAnalytics] = useState(null);
   const [isLoadingAnalytics, setIsLoadingAnalytics] = useState(true);
