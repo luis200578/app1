@@ -100,13 +100,31 @@ export const AuthProvider = ({ children }) => {
         return { success: true };
       }
     } catch (error) {
+      console.error('Registration error:', error);
+      
+      let errorTitle = 'Erro no cadastro';
+      let errorDescription = error.message || 'Erro desconhecido';
+      
+      // Handle specific error cases
+      if (error.status === 400) {
+        errorTitle = 'Dados inválidos';
+        if (error.data?.errors) {
+          errorDescription = error.data.errors.map(e => e.msg).join(', ');
+        } else if (error.data?.message) {
+          errorDescription = error.data.message;
+        }
+      } else if (error.code === 'NETWORK_ERROR' || error.message.includes('Network Error')) {
+        errorTitle = 'Erro de conexão';
+        errorDescription = 'Não foi possível conectar com o servidor. Verifique sua conexão.';
+      }
+      
       toast({
-        title: 'Erro no cadastro',
-        description: error.message,
+        title: errorTitle,
+        description: errorDescription,
         variant: 'destructive'
       });
       
-      return { success: false, error: error.message };
+      return { success: false, error: errorDescription };
     } finally {
       setLoading(false);
     }
