@@ -22,14 +22,67 @@ import { useToast } from "../hooks/use-toast";
 const DashboardPage = () => {
   const navigate = useNavigate();
   const { user, isAuthenticated, loading } = useAuth();
-  const [analysis, setAnalysis] = useState(mockAnalysis);
+  const { toast } = useToast();
+  const [analytics, setAnalytics] = useState(null);
+  const [isLoadingAnalytics, setIsLoadingAnalytics] = useState(true);
 
   useEffect(() => {
     // Check if user is logged in using AuthContext
     if (!loading && !isAuthenticated) {
       navigate("/login");
     }
-  }, [loading, isAuthenticated, navigate]);
+    
+    // Load analytics data when user is authenticated
+    if (isAuthenticated && user) {
+      loadDashboardData();
+    }
+  }, [loading, isAuthenticated, navigate, user]);
+
+  const loadDashboardData = async () => {
+    try {
+      setIsLoadingAnalytics(true);
+      const response = await analyticsAPI.getDashboard({ days: 7 });
+      
+      if (response.success) {
+        setAnalytics(response.data);
+      } else {
+        // Use fallback data if no analytics exist yet
+        setAnalytics(createFallbackAnalytics());
+      }
+    } catch (error) {
+      console.error('Error loading dashboard data:', error);
+      
+      // Use fallback data on error
+      setAnalytics(createFallbackAnalytics());
+      
+      toast({
+        title: "Dados indisponíveis",
+        description: "Usando dados de exemplo. Comece registrando seu humor para ver dados reais.",
+        variant: "default"
+      });
+    } finally {
+      setIsLoadingAnalytics(false);
+    }
+  };
+
+  const createFallbackAnalytics = () => ({
+    summary: {
+      totalDays: 0,
+      averages: {
+        mood: 0,
+        energy: 0,
+        stress: 0
+      },
+      goals: {
+        active: 0,
+        completedThisPeriod: 0
+      }
+    },
+    moodTrends: [],
+    weeklyAverage: {},
+    insightsSummary: [],
+    dailyAnalytics: []
+  });
 
   const StatCard = ({ icon: Icon, title, value, subtitle, color = "blue" }) => (
     <Card className="hover:shadow-lg transition-shadow">
