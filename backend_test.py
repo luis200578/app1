@@ -324,12 +324,12 @@ class YouAPITester:
         goal_data = {
             "title": "Desenvolver Hábito de Meditação",
             "description": "Meditar por 10 minutos todos os dias pela manhã para melhorar foco e bem-estar",
-            "category": "saude",
-            "targetDate": "2024-12-31",
+            "category": "saude_mental",
+            "targetDate": "2025-12-31",
             "priority": "alta",
             "milestones": [
-                {"title": "Primeira semana completa", "targetDate": "2024-11-15"},
-                {"title": "Primeiro mês completo", "targetDate": "2024-12-01"}
+                {"title": "Primeira semana completa", "targetDate": "2025-11-15"},
+                {"title": "Primeiro mês completo", "targetDate": "2025-12-01"}
             ]
         }
         
