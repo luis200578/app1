@@ -10,8 +10,11 @@ import { useToast } from "../hooks/use-toast";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { toast } = useToast();
   const { register, isAuthenticated, loading } = useAuth();
+  const quizMessage = location.state?.message;
+  const fromQuiz = location.state?.quizCompleted;
   const [formData, setFormData] = useState({
     name: "",
     email: "",
