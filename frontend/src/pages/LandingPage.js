@@ -57,22 +57,34 @@ const LandingPage = () => {
           
           <nav className="hidden md:flex items-center space-x-6">
             <div className="group relative">
-              <button className="text-gray-600 hover:text-gray-800 px-3 py-2">
+              <button 
+                onClick={() => navigate("/tipos-de-apoio")}
+                className="text-gray-600 hover:text-gray-800 px-3 py-2"
+              >
                 Tipos de Apoio
               </button>
             </div>
             <div className="group relative">
-              <button className="text-gray-600 hover:text-gray-800 px-3 py-2">
+              <button 
+                onClick={() => navigate("/tipos-de-apoio")}
+                className="text-gray-600 hover:text-gray-800 px-3 py-2"
+              >
                 Tipos de Terapia
               </button>
             </div>
             <div className="group relative">
-              <button className="text-gray-600 hover:text-gray-800 px-3 py-2">
+              <button 
+                onClick={() => navigate("/faq")}
+                className="text-gray-600 hover:text-gray-800 px-3 py-2"
+              >
                 Desafios Comuns
               </button>
             </div>
             <div className="group relative">
-              <button className="text-gray-600 hover:text-gray-800 px-3 py-2">
+              <button 
+                onClick={() => navigate("/precos")}
+                className="text-gray-600 hover:text-gray-800 px-3 py-2"
+              >
                 Empresas
               </button>
             </div>
