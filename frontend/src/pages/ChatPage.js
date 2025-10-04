@@ -9,11 +9,13 @@ import {
   ArrowLeft,
   Lightbulb,
   Heart,
-  MessageCircle
+  MessageCircle,
+  Loader2
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "../hooks/use-toast";
-import { mockChatMessages } from "../data/mock";
+import { useAuth } from "../contexts/AuthContext";
+import { chatAPI } from "../services/api";
 
 const ChatPage = () => {
   const navigate = useNavigate();
