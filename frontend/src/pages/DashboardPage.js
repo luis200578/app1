@@ -190,9 +190,9 @@ const DashboardPage = () => {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="bg-white shadow-sm border-b border-gray-200">
-        <div className="container mx-auto px-4 py-4">
+        <div className="container mx-auto px-4 py-3 md:py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-3 md:space-x-4">
               <div 
                 className="flex items-center space-x-2 cursor-pointer"
                 onClick={() => navigate("/")}
@@ -200,12 +200,12 @@ const DashboardPage = () => {
                 <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
                   <Brain className="w-4 h-4 text-white" />
                 </div>
-                <span className="text-xl font-bold text-blue-600">YOU</span>
+                <span className="text-lg md:text-xl font-bold text-blue-600">YOU</span>
               </div>
               
-              <div className="hidden md:block">
-                <h1 className="text-xl font-semibold text-gray-800">
-                  Bem-vindo de volta, {user?.name || 'Usuário'}!
+              <div className="hidden sm:block">
+                <h1 className="text-base md:text-xl font-semibold text-gray-800">
+                  Olá, {user?.name?.split(' ')[0] || 'Usuário'}!
                 </h1>
               </div>
             </div>
