@@ -336,7 +336,8 @@ class YouAPITester:
         success, data, status = self.make_request("POST", "/goals", goal_data)
         
         if success and isinstance(data, dict):
-            goal_id = data.get("goal", {}).get("id") or data.get("id")
+            goal_data = data.get("data", {}).get("goal", {})
+            goal_id = goal_data.get("_id") or goal_data.get("id")
             if goal_id:
                 self.goal_id = goal_id
                 self.log_test("Create Goal", True, f"Goal ID: {goal_id}")
