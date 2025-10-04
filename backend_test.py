@@ -260,7 +260,8 @@ class YouAPITester:
         success, data, status = self.make_request("POST", "/chat/conversations", conversation_data)
         
         if success and isinstance(data, dict):
-            conversation_id = data.get("conversation", {}).get("id") or data.get("id")
+            conversation_data = data.get("data", {}).get("conversation", {})
+            conversation_id = conversation_data.get("_id") or conversation_data.get("id")
             if conversation_id:
                 self.conversation_id = conversation_id
                 self.log_test("Create Conversation", True, f"Conversation ID: {conversation_id}")
