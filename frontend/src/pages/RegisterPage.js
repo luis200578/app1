@@ -24,6 +24,16 @@ const RegisterPage = () => {
     password: "",
     confirmPassword: ""
   });
+  
+  const [fieldErrors, setFieldErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const registerOperation = useAsyncOperation({
+    showSuccessToast: false, // We'll handle this manually
+    showErrorToast: true,
+    defaultErrorMessage: "Erro ao criar conta. Tente novamente."
+  });
+  
   const [isLoading, setIsLoading] = useState(false);
 
   // Redirect if already authenticated
