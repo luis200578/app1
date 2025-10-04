@@ -8,6 +8,13 @@ import RegisterPage from "./pages/RegisterPage";
 import DashboardPage from "./pages/DashboardPage";
 import QuizPage from "./pages/QuizPage";
 import ChatPage from "./pages/ChatPage";
+import PricingPage from "./pages/PricingPage";
+import SupportTypesPage from "./pages/SupportTypesPage";
+import FAQPage from "./pages/FAQPage";
+import ContactPage from "./pages/ContactPage";
+import GoalsPage from "./pages/GoalsPage";
+import AnalyticsPage from "./pages/AnalyticsPage";
+import SettingsPage from "./pages/SettingsPage";
 
 function App() {
   return (
@@ -20,6 +27,13 @@ function App() {
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/quiz" element={<QuizPage />} />
           <Route path="/conversa" element={<ChatPage />} />
+          <Route path="/precos" element={<PricingPage />} />
+          <Route path="/tipos-de-apoio" element={<SupportTypesPage />} />
+          <Route path="/faq" element={<FAQPage />} />
+          <Route path="/contato" element={<ContactPage />} />
+          <Route path="/objetivos" element={<GoalsPage />} />
+          <Route path="/analiticas" element={<AnalyticsPage />} />
+          <Route path="/configuracoes" element={<SettingsPage />} />
         </Routes>
         <Toaster />
       </BrowserRouter>
