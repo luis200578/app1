@@ -56,16 +56,6 @@ const QuizPage = () => {
   };
 
   const handleCompleteQuiz = async () => {
-    if (!isAuthenticated) {
-      toast({
-        title: "Sessão expirada",
-        description: "Por favor, faça login novamente.",
-        variant: "destructive"
-      });
-      navigate("/login");
-      return;
-    }
-
     setIsSubmitting(true);
     setIsCompleted(true);
     
