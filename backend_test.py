@@ -365,8 +365,11 @@ class YouAPITester:
             return False
         
         update_data = {
+            "title": "Desenvolver Hábito de Meditação Avançada",
             "description": "Meditar por 15 minutos todos os dias pela manhã para melhorar foco, bem-estar e reduzir ansiedade",
-            "priority": "medium"
+            "category": "saude_mental",
+            "targetDate": "2025-12-31",
+            "priority": "alta"
         }
         
         success, data, status = self.make_request("PUT", f"/goals/{self.goal_id}", update_data)
