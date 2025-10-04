@@ -442,41 +442,111 @@ const LandingPage = () => {
         </div>
       </section>
 
+      {/* CTA Section */}
+      <section className="py-16 bg-gradient-to-r from-blue-500 to-purple-600 text-white">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl font-bold mb-4">
+            Pronto para transformar sua vida?
+          </h2>
+          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+            Faça nosso questionário de 1 minuto e comece sua jornada de autodescoberta 
+            e crescimento pessoal hoje. Junte-se a milhares de pessoas que já descobriram 
+            seu verdadeiro potencial.
+          </p>
+          
+          <Button 
+            size="lg"
+            onClick={() => navigate("/quiz")}
+            className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 text-lg mb-4"
+          >
+            Começar agora
+          </Button>
+          
+          <div className="text-sm text-blue-100 space-x-2">
+            <span>✨ Grátis para começar</span>
+            <span>•</span>
+            <span>Não é necessário cartão de crédito</span>
+            <span>•</span>
+            <span>Cancele a qualquer momento</span>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-16">
         <div className="container mx-auto px-4">
-          <div className="text-center">
-            <div className="flex items-center justify-center space-x-2 mb-8">
-              <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                <Brain className="w-4 h-4 text-white" />
+          <div className="grid md:grid-cols-4 gap-8 mb-8">
+            {/* Brand */}
+            <div className="md:col-span-1">
+              <div className="flex items-center space-x-2 mb-4">
+                <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                  <Brain className="w-4 h-4 text-white" />
+                </div>
+                <span className="text-xl font-bold">YOU</span>
               </div>
-              <span className="text-xl font-bold">YOU - Seu Gêmeo IA</span>
+              <p className="text-gray-400 text-sm mb-4">
+                Seu Gêmeo IA personalizado para crescimento pessoal e autoconhecimento.
+              </p>
+              <div className="flex space-x-2">
+                <div className="flex">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <Star key={star} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                  ))}
+                </div>
+                <span className="text-sm text-gray-400">{mockStats.rating}/5</span>
+              </div>
             </div>
             
-            <h2 className="text-3xl font-bold mb-4">
-              Pronto para transformar sua vida?
-            </h2>
-            <p className="text-xl text-gray-300 mb-8">
-              Faça nosso questionário de 1 minuto e comece sua jornada de autodescoberta 
-              e crescimento pessoal hoje. Junte-se a milhares de pessoas que já descobriram 
-              seu verdadeiro potencial.
+            {/* Product */}
+            <div>
+              <h4 className="font-semibold mb-4">Produto</h4>
+              <ul className="space-y-2 text-sm text-gray-400">
+                <li><button onClick={() => navigate("/tipos-de-apoio")} className="hover:text-white">Tipos de Apoio</button></li>
+                <li><button onClick={() => navigate("/tipos-de-terapia")} className="hover:text-white">Tipos de Terapia</button></li>
+                <li><button onClick={() => navigate("/precos")} className="hover:text-white">Preços</button></li>
+                <li><button onClick={() => navigate("/faq")} className="hover:text-white">FAQ</button></li>
+              </ul>
+            </div>
+            
+            {/* Company */}
+            <div>
+              <h4 className="font-semibold mb-4">Empresa</h4>
+              <ul className="space-y-2 text-sm text-gray-400">
+                <li><button onClick={() => navigate("/contato")} className="hover:text-white">Contato</button></li>
+                <li><button onClick={() => navigate("/precos")} className="hover:text-white">Empresas</button></li>
+                <li><button className="hover:text-white">Privacidade</button></li>
+                <li><button className="hover:text-white">Termos de Uso</button></li>
+              </ul>
+            </div>
+            
+            {/* Contact */}
+            <div>
+              <h4 className="font-semibold mb-4">Contato</h4>
+              <ul className="space-y-3 text-sm text-gray-400">
+                <li className="flex items-center space-x-2">
+                  <Mail className="w-4 h-4" />
+                  <span>contato@you.com.br</span>
+                </li>
+                <li className="flex items-center space-x-2">
+                  <Phone className="w-4 h-4" />
+                  <span>+55 (11) 9999-9999</span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <MapPin className="w-4 h-4 mt-0.5" />
+                  <span>São Paulo, SP<br />Brasil</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          
+          {/* Bottom */}
+          <div className="border-t border-gray-800 pt-8 text-center">
+            <p className="text-sm text-gray-400">
+              © 2024 YOU - Seu Gêmeo IA. Todos os direitos reservados.
             </p>
-            
-            <Button 
-              size="lg"
-              onClick={() => navigate("/quiz")}
-              className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-4 text-lg mb-4"
-            >
-              Começar agora
-            </Button>
-            
-            <div className="text-sm text-gray-400 space-x-2">
-              <span>✨ Grátis para começar</span>
-              <span>•</span>
-              <span>Não é necessário cartão de crédito</span>
-              <span>•</span>
-              <span>Cancele a qualquer momento</span>
-            </div>
+            <p className="text-xs text-gray-500 mt-2">
+              Disponível em {mockStats.languages} idiomas • Mais de {mockStats.totalUsers} usuários ativos
+            </p>
           </div>
         </div>
       </footer>
