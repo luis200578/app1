@@ -399,7 +399,7 @@ const ChatPage = () => {
           {/* Message Input */}
           <div className="bg-white border-t border-gray-200 p-4">
             <div className="max-w-4xl mx-auto">
-              <form onSubmit={handleSendMessage} className="flex space-x-4">
+              <form onSubmit={(e) => { e.preventDefault(); sendMessage(); }} className="flex space-x-4">
                 <Input
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
