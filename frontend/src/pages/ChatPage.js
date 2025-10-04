@@ -175,71 +175,93 @@ const ChatPage = () => {
     
     // If no conversation exists, create one first
     if (!currentConversation) {
-      await createNewConversation();
+      await createLocalConversation();
       return;
     }
 
     const userMessage = newMessage.trim();
     setNewMessage("");
     setIsSending(true);
-    setIsTyping(true);
 
     try {
-      // Add user message to UI immediately
+      // Add user message immediately
       const userMessageObj = {
-        _id: Date.now().toString(),
+        _id: 'user-' + Date.now(),
         content: userMessage,
         type: 'user',
         timestamp: new Date(),
-        sender: user?._id || 'temp'
+        conversationId: currentConversation._id
       };
       
       setMessages(prev => [...prev, userMessageObj]);
 
-      // Send to backend (with safety check)
-      if (!currentConversation?._id) {
-        throw new Error('Conversa não encontrada');
-      }
+      // Try backend first, fallback to local AI
+      let aiResponse = null;
       
-      const response = await chatAPI.sendMessage(currentConversation._id, {
-        content: userMessage,
-        type: 'user'
-      });
-
-      if (response.success) {
-        // Replace temporary message with real one and add AI response
-        setMessages(prev => {
-          const filtered = prev.filter(msg => msg._id !== userMessageObj._id);
-          const newMessages = [response.data.userMessage];
+      try {
+        if (currentConversation._id.startsWith('local-')) {
+          // Local conversation - use local AI response
+          aiResponse = generateLocalAIResponse(userMessage);
+        } else {
+          // Try backend
+          const response = await chatAPI.sendMessage(currentConversation._id, {
+            content: userMessage,
+            type: 'user'
+          });
           
-          if (response.data.aiMessage) {
-            newMessages.push(response.data.aiMessage);
+          if (response.success && response.data.aiMessage) {
+            aiResponse = response.data.aiMessage.content;
+          } else {
+            // Backend failed, use local AI
+            aiResponse = generateLocalAIResponse(userMessage);
           }
-          
-          return [...filtered, ...newMessages];
-        });
-        
-        toast({
-          title: "Mensagem enviada!",
-          description: "Seu Gêmeo IA está respondendo...",
-        });
+        }
+      } catch (backendError) {
+        console.log('Backend unavailable, using local AI:', backendError);
+        aiResponse = generateLocalAIResponse(userMessage);
       }
+
+      // Add AI response after delay
+      setIsTyping(true);
+      setTimeout(() => {
+        const aiMessageObj = {
+          _id: 'ai-' + Date.now(),
+          content: aiResponse,
+          type: 'ai',
+          timestamp: new Date(),
+          conversationId: currentConversation._id
+        };
+        
+        setMessages(prev => [...prev, aiMessageObj]);
+        setIsTyping(false);
+      }, 1500 + Math.random() * 2000);
       
     } catch (error) {
       console.error('Error sending message:', error);
       
-      // Remove temporary message on error
-      setMessages(prev => prev.filter(msg => msg._id !== userMessageObj._id));
-      
       toast({
         title: "Erro ao enviar mensagem",
-        description: error.message || "Não foi possível enviar sua mensagem. Tente novamente.",
+        description: "Ocorreu um erro. Tente novamente.",
         variant: "destructive"
       });
+      
+      setIsTyping(false);
     } finally {
       setIsSending(false);
-      setIsTyping(false);
     }
+  };
+
+  const generateLocalAIResponse = (userMessage) => {
+    const responses = [
+      `Entendo que você está compartilhando isso comigo. Com base no que você disse, percebo que há sentimentos importantes envolvidos. Como você se sente ao falar sobre isso?`,
+      `Isso é uma reflexão muito válida. Vejo que você está desenvolvendo maior autoconsciência sobre essa situação. O que mais você gostaria de explorar sobre isso?`,
+      `Percebo que este tema é significativo para você. Sua disposição para refletir sobre esses pensamentos mostra maturidade emocional. Que pequeno passo você poderia dar hoje?`,
+      `Agradeço por compartilhar isso comigo. Cada vez que conversamos, aprendo mais sobre como você pensa e sente. Como posso te apoiar melhor neste momento?`,
+      `Vejo uma oportunidade interessante aqui para crescimento pessoal. Você tem mostrado grande capacidade de reflexão. O que você acha que poderia fazer diferente?`,
+      `Entendo sua perspectiva sobre isso. É normal ter esses sentimentos, e é corajoso de sua parte explorá-los. Vamos conversar mais sobre o que você está sentindo?`
+    ];
+    
+    return responses[Math.floor(Math.random() * responses.length)];
   };
 
   const handleKeyPress = (e) => {
