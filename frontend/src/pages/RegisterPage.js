@@ -108,12 +108,30 @@ const RegisterPage = () => {
         <div className="w-full max-w-md">
           <Card className="shadow-xl border-0">
             <CardHeader className="text-center pb-8">
-              <h1 className="text-2xl font-bold text-blue-500 mb-2">
-                Crie sua conta
-              </h1>
-              <p className="text-gray-600">
-                Comece sua jornada de autodescoberta
-              </p>
+              {fromQuiz ? (
+                <>
+                  <h1 className="text-2xl font-bold text-blue-500 mb-2">
+                    Quiz Concluído! 🎉
+                  </h1>
+                  <p className="text-gray-600 mb-2">
+                    {quizMessage || "Crie sua conta para ver seus resultados personalizados!"}
+                  </p>
+                  <div className="bg-blue-50 p-3 rounded-lg">
+                    <p className="text-sm text-blue-700">
+                      Seus resultados do quiz estão esperando por você!
+                    </p>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <h1 className="text-2xl font-bold text-blue-500 mb-2">
+                    Crie sua conta
+                  </h1>
+                  <p className="text-gray-600">
+                    Comece sua jornada de autodescoberta
+                  </p>
+                </>
+              )}
             </CardHeader>
             
             <CardContent className="space-y-6">
