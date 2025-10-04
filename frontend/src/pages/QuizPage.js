@@ -55,22 +55,62 @@ const QuizPage = () => {
     }
   };
 
-  const handleCompleteQuiz = () => {
+  const handleCompleteQuiz = async () => {
+    if (!isAuthenticated) {
+      toast({
+        title: "Sessão expirada",
+        description: "Por favor, faça login novamente.",
+        variant: "destructive"
+      });
+      navigate("/login");
+      return;
+    }
+
+    setIsSubmitting(true);
     setIsCompleted(true);
     
-    // Store quiz results
-    localStorage.setItem("quizResults", JSON.stringify(answers));
-    
-    setTimeout(() => {
-      toast({
-        title: "Quiz concluído!",
-        description: "Analisando suas respostas... Redirecionando para seu painel.",
-      });
+    try {
+      // Store quiz results locally as backup
+      localStorage.setItem("quizResults", JSON.stringify(answers));
+      
+      // Submit to backend
+      const quizData = {
+        answers: answers,
+        completedAt: new Date().toISOString(),
+        questionsCount: mockQuizQuestions.length
+      };
+      
+      // Submit quiz results to backend
+      await quizAPI.submitQuiz(quizData);
       
       setTimeout(() => {
-        navigate("/dashboard");
-      }, 2000);
-    }, 1000);
+        toast({
+          title: "Quiz concluído!",
+          description: "Suas respostas foram analisadas. Redirecionando para seu painel.",
+        });
+        
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 2000);
+      }, 1000);
+      
+    } catch (error) {
+      console.error('Error submitting quiz:', error);
+      
+      // Even if backend submission fails, still complete the quiz
+      setTimeout(() => {
+        toast({
+          title: "Quiz concluído!",
+          description: "Redirecionando para seu painel...",
+        });
+        
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 2000);
+      }, 1000);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const renderQuestion = () => {
