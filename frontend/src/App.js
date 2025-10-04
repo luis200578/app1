@@ -30,6 +30,7 @@ function App() {
           <Route path="/conversa" element={<ChatPage />} />
           <Route path="/precos" element={<PricingPage />} />
           <Route path="/tipos-de-apoio" element={<SupportTypesPage />} />
+          <Route path="/tipos-de-terapia" element={<TherapyTypesPage />} />
           <Route path="/faq" element={<FAQPage />} />
           <Route path="/contato" element={<ContactPage />} />
           <Route path="/objetivos" element={<GoalsPage />} />
