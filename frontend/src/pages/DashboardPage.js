@@ -18,6 +18,9 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { analyticsAPI } from "../services/api";
 import { useToast } from "../hooks/use-toast";
+import { LoadingScreen, SkeletonLoader, LoadingOverlay } from "../components/ui/loading";
+import { InlineError } from "../components/ui/error-boundary";
+import { useAsyncOperation } from "../hooks/useAsyncOperation";
 
 const DashboardPage = () => {
   const navigate = useNavigate();
