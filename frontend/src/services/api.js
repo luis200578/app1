@@ -35,6 +35,13 @@ apiClient.interceptors.response.use(
     return response.data; // Return only the data part
   },
   (error) => {
+    console.log('API Error Details:', {
+      message: error.message,
+      status: error.response?.status,
+      data: error.response?.data,
+      config: error.config?.url
+    });
+    
     // Handle common errors
     if (error.response?.status === 401) {
       // Unauthorized - clear token and redirect to login
@@ -43,10 +50,26 @@ apiClient.interceptors.response.use(
       window.location.href = '/login';
     }
     
+    // Better error handling for network issues
+    let errorMessage = 'Erro desconhecido';
+    
+    if (error.code === 'NETWORK_ERROR' || error.code === 'ERR_NETWORK') {
+      errorMessage = 'Erro de conexão com o servidor. Verifique sua internet.';
+    } else if (error.code === 'ECONNABORTED' || error.message.includes('timeout')) {
+      errorMessage = 'Timeout - servidor demorou para responder. Tente novamente.';
+    } else if (error.response?.data?.message) {
+      // Server returned an error message
+      errorMessage = error.response.data.message;
+    } else if (error.message) {
+      // Network or other error
+      errorMessage = error.message;
+    }
+    
     return Promise.reject({
-      message: error.response?.data?.message || error.message || 'Erro desconhecido',
+      message: errorMessage,
       status: error.response?.status,
-      data: error.response?.data
+      data: error.response?.data,
+      code: error.code
     });
   }
 );
