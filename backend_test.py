@@ -454,7 +454,7 @@ class YouAPITester:
     def test_log_mood(self):
         """Test log daily mood"""
         mood_data = {
-            "mood": "happy",
+            "mood": 8,
             "energy": 8,
             "stress": 3,
             "notes": "Dia produtivo! Consegui completar todas as tarefas planejadas e ainda tive tempo para relaxar.",
